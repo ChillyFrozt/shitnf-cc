@@ -1,0 +1,5 @@
+#fcfaf7 (Blanco)
+#010101 (Negro)
+#363636 (Gris)
+#3e3ef4 (Morado)
+#f77062 (Naranja)
