@@ -9,3 +9,5 @@
 #f49a2c (Naranja)
 #fe6138 (Anaranjado)
 #98be4f (Verde)
+
+*Sería interersante jugar con el atributo :focus en alguna parte de la página ngl
