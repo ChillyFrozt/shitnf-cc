@@ -2,7 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Kumbh Sans', sans-serif;
+  font-family: 'Lexend Deca', sans-serif;
 }
 
 .navbar {
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -80,7 +80,7 @@
   border: none;
   outline: none;
   border-radius: 4px;
-  background: #b721ff;
+  background: #fe6138;
   color: #fcfaf7;
 }
 
@@ -129,7 +129,7 @@
     height: 3px;
     margin: 5px auto;
     transition: all 0.3s ease-in-out;
-    background: #fff;
+    background: #fcfaf7;
   }
 
   .navbar__item {
@@ -207,23 +207,22 @@
 }
 
 .main__content h1 {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .main__content h2 {
-  font-size: 5rem;
-  margin-top: 4px;
+  font-size: 4rem;
 }
 
 .main__content p {
-  margin-top: 3rem;
-  font-size: 2rem;
+  margin-top: 1rem;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
 .main__btn {
-  font-size: 1rem;
-  background-image: linear-gradient(to top, #3e3ef4 0%, #b721ff 100%);
+  font-size: 1.2rem;
+  background-image: linear-gradient(to top, #3e3ef4 10%, #b721ff 100%);
   padding: 14px 32px;
   border: none;
   border-radius: 4px;
@@ -299,7 +298,7 @@
   }
 
   .main__content h2 {
-    font-size: 3rem;
+    font-size: 4rem;
   }
 
   .main__content p {
