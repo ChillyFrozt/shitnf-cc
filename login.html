@@ -7,9 +7,9 @@
     <link rel="icon" href="images/icon.png" type="image/x-icon"/>
     <link rel="stylesheet" href="styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   </head>
   <body>
-
 
     <!-- Navbar (No tocar) -->
     <nav class="navbar">
@@ -34,18 +34,31 @@
       </div>
     </nav>
 
-    <!-- Hero (main) -->
+    <!-- Main -->
     <div class="main">
-      <div class="main__container">
-        <div class="main__content">
-          <h1>Iniciar Sesión</h1>
-          <p>I love when you count me out</p>
-          <button class="main__btn"><a href="#">Fucking it up</a></button>
+      <div class="login__main_container">
+        <div class="wrapper">
+          <form action="">
+            <h1>Iniciar Sesión</h1>
+            <div class="input-box">
+              <input type="text" placeholder="Nombre de Usuario" required/>
+              <i class='bxr bx-user-circle'></i> 
+            </div>
+            <div class="input-box">
+              <input type="password" placeholder="Contraseña" required/>
+              <i class='bxr bx-lock-keyhole'></i> 
+            </div>
+            <div class="remember-forgot">
+              <label><input type="checkbox"> Recuérdame</label>
+              <a href="#">¿Olvisaste tu Contraseña?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div class="register-link">
+              <p>¿No tienes cuenta? <a href="#">Regístate</a></p>
+            </div>
+          </form>
         </div>
-        <div class="main__img-container">
-          <img id="main__img" src="images/pic4.jpg" />
-        </div>
-      </div>
+      </div>  
     </div>
 
     <!-- Footer (No tocar) -->

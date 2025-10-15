@@ -1,10 +1,16 @@
+/* Font */
+/*################################################*/
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Lexend Deca', sans-serif;
 }
+/*################################################*/
 
+
+/* NavBar */
+/*################################################*/
 .navbar {
   background: #3e3ef4;
   height: 90px;
@@ -180,8 +186,11 @@
     transform: translateY(-8px) rotate(-45deg);
   }
 }
+/*################################################*/
 
-/* Main Content CSS */
+
+/* Main */
+/*################################################*/
 .main {
   background-color: #010101;
 }
@@ -275,7 +284,6 @@
   width: 20%;
 }
 
-/* Mobile Responsive */
 @media screen and (max-width: 768px) {
   .main__container {
     display: grid;
@@ -327,8 +335,11 @@
     margin: 2.5rem 0;
   }
 }
+/*################################################*/
 
-/* Footer CSS */
+
+/* Footer */
+/*################################################*/
 .footer__container {
   background-color: #3e3ef4;
   padding: 5rem 0;
@@ -384,3 +395,128 @@
     width: 100%;
   }
 }
+/*################################################*/
+
+/* Login */
+/*################################################*/
+
+.login__main_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #010101;
+}
+
+.wrapper {
+  width: 420px;
+  background: #3e3ef4;
+  color: #fcfaf7;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.wrapper h1{
+  font-size: 36px;
+  text-align: center;
+}
+
+.wrapper .input-box {
+  width: 100%;
+  height: 50px;
+  background: #3e3ef4;
+  margin: 30px 0;
+}
+
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  background: transparent; /* Make container transparent */
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent; /* Make input transparent */
+  border: 2px solid #fcfaf7;
+  border-radius: 40px;
+  color: #fcfaf7; /* Ensure text is visible */
+  padding: 0 45px 0 20px;
+  outline: none;
+  font-size: 16px;
+}
+
+.input-box i {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #fcfaf7; /* Ensure icon is visible */
+}
+
+.wrapper .remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14.5px;
+  margin: -15px 0 15px;
+}
+
+.remember-forgot label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fcfaf7;
+}
+
+.remember-forgot input[type="checkbox"] {
+  accent-color: #fcfaf7;
+}
+
+.remember-forgot a {
+  color: #fcfaf7;
+}
+
+.remember-forgot a:hover{
+  text-decoration: underline;
+}
+
+.wrapper .btn{
+  width: 100%;
+  height: 45px;
+  background: #fcfaf7;
+  border-radius: 40px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px #010101;
+  color: #010101;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wrapper .register-link{
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+}
+
+.register-link p a{
+  color: #fcfaf7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link p a:hover{
+  text-decoration: underline;
+}
+
+/*################################################*/
