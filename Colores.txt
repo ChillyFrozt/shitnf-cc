@@ -11,3 +11,4 @@
 #98be4f (Verde)
 
 *Sería interersante jugar con el atributo :focus en alguna parte de la página ngl
+*No he usado las img 5,6,7,8,9
