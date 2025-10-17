@@ -723,3 +723,67 @@
   margin-bottom: 20px;
 }
 /*################################################*/
+
+/* err */
+/*################################################*/
+.err_container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 95vh;
+  width: 100%;
+  background: url("/images/err_bg01.gif") no-repeat center center/cover;
+  overflow: hidden;
+}
+
+.err_wrapper {
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  background: #363636;
+  color: #fcfaf7;
+  border-radius: 10px;
+  padding: 30px 40px;
+  box-shadow: 0 0 20px #010101;
+}
+
+.err_wrapper h1{
+  font-size: 35px;
+  text-align: center;
+}
+
+.err_wrapper .err_login-link{
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 5px;
+}
+
+.err_login-link p a{
+  color: #fcfaf7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.err_login-link p a:hover{
+  text-decoration: underline;
+}
+
+.err_wrapper .btn{
+  width: 100%;
+  height: 45px;
+  background: #fcfaf7;
+  border-radius: 40px;
+  border: none;
+  outline: none;
+  box-shadow: 0 0 10px #010101;
+  color: #010101;
+  font-size: 16px;
+  font-weight: 600; 
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/*################################################*/
