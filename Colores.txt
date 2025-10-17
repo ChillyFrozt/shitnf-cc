@@ -11,7 +11,7 @@
 #98be4f (Verde)
 
 *Sería interersante jugar con el atributo :focus en alguna parte de la página ngl
-*No he usado las img 5,6,7,8,9
+*No he usado las img 6,9
 
 Another Him: https://www.youtube.com/watch?v=mHOkkDmsTvo
 BIT ROOTS: https://www.youtube.com/watch?v=fMfro9XfU1w
