@@ -47,6 +47,34 @@
       </div>
     </div> 
 
+    <!-- Música de fondo (Creo que se puede optimizar ngl) -->
+    <iframe
+      id="bg-music"
+      src="https://www.youtube.com/embed/mHOkkDmsTvo?autoplay=1&mute=1&loop=1&playlist=mHOkkDmsTvo&enablejsapi=1"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      style="width:0; height:0; border:0; position:absolute; left:-9999px;">
+    </iframe>
+    <script>
+      function onYouTubeIframeAPIReady() {
+        new YT.Player('bg-music', {
+          events: {
+            'onReady': (event) => {
+              event.target.playVideo();
+            }
+          }
+        });
+      }
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+
+      document.body.addEventListener('click', () => {
+        const iframe = document.getElementById('bg-music');
+        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      });
+    </script>
+
     <!-- Footer (No tocar) -->
     <div class="footer_container">
         <div class="social__media--wrap">
