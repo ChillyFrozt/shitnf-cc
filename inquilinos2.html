@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administrar Inquilinos - Casa Campus</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    .template_wrapper { max-width: 1000px; width: 90%; margin: 0 auto; }
+    table { width:100%; border-collapse:collapse; margin-top:16px; }
+    th, td { padding:10px; border-bottom:1px solid #fcfaf74d; color:#fcfaf7; }
+    .grid { display:grid; gap:12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid label { display:block; margin-bottom:4px; }
+    .grid input { width:100%; padding:10px; border-radius:8px; border:2px solid #fcfaf7; background:transparent; color:#fcfaf7; }
+    .actions { display:flex; gap:10px; margin-top:10px; }
+    .btn { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+    .btn-primary { background:#fcfaf7; color:#010101; }
+    .btn-danger { background:#fe6138; color:#fcfaf7; }
+    .btn-secondary { background:#3e3ef4; color:#fcfaf7; border:1px solid #fcfaf7; }
+    .alert { display:none; margin:10px 0; padding:10px; border-radius:8px; }
+    .alert.ok { background:#98be4f; color:#010101; }
+    .alert.err { background:#fe6138; color:#fcfaf7; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar__container">
+      <a href="/home.html"><img id="navbar__logo" src="images/logo.png" alt="Logo"/></a>
+      <ul class="navbar__menu">
+        <li class="navbar__item"><a href="/inquilinos.html" class="navbar__links">Inquilinos</a></li>
+        <li class="navbar__item"><a href="/pagos.html" class="navbar__links">Pagos</a></li>
+        <li class="navbar__item"><a href="/reportes.html" class="navbar__links">Reportes</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="template_container">
+    <div class="template_wrapper">
+      <h1 style="text-align:center;margin:12px 0 20px;">Administrar Inquilinos</h1>
+
+      <div id="ok"  class="alert ok"></div>
+      <div id="err" class="alert err"></div>
+
+      <form id="f" autocomplete="off">
+        <input type="hidden" id="id"/>
+        <div class="grid">
+          <div>
+            <label for="nombre">Nombre completo</label>
+            <input id="nombre" required placeholder="Ana Gómez"/>
+          </div>
+          <div>
+            <label for="cuarto">Cuarto (piso-letra)</label>
+            <input id="cuarto" required placeholder="4-K" pattern="^[0-9]+-[A-Za-z]$" title="Ej: 4-K"/>
+          </div>
+          <div>
+            <label for="telefono">Teléfono (CR)</label>
+            <input id="telefono" required placeholder="8888-8888" pattern="^(\\d{4}-\\d{4}|\\d{8})$" title="8 dígitos con o sin guion"/>
+          </div>
+          <div>
+            <label for="cedula">Cédula (CR)</label>
+            <input id="cedula" required placeholder="1-2345-6789" pattern="^\\d{1}-\\d{4}-\\d{4}$" title="Formato: 1-2345-6789"/>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Guardar</button>
+          <button class="btn btn-secondary" type="button" id="limpiar">Limpiar</button>
+        </div>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th><th>Cuarto</th><th>Teléfono</th><th>Cédula</th><th style="width:170px;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer_container">
+    <div class="social__media--wrap">
+      <img id="footer_logo" src="images/logo.png"/>
+    </div>
+    <p class="website__rights">© Casa Campus TEC 2025. Derechos Reservados</p>
+  </div>
+
+  <script>
+    const API = 'http://localhost:3001';
+    const $ = s => document.querySelector(s);
+    const ok = $('#ok'), err = $('#err');
+
+    function showOK(t){ ok.textContent=t; ok.style.display='block'; setTimeout(()=>ok.style.display='none',2000); }
+    function showERR(t){ err.textContent=t; err.style.display='block'; setTimeout(()=>err.style.display='none',3500); }
+
+    function formData(){
+      return {
+        id: $('#id').value ? Number($('#id').value) : null,
+        nombre: $('#nombre').value.trim(),
+        cuarto: $('#cuarto').value.trim().toUpperCase(),
+        telefono: $('#telefono').value.trim(),
+        cedula: $('#cedula').value.trim()
+      };
+    }
+    function setForm(t){ $('#id').value=t?.id||''; $('#nombre').value=t?.nombre||''; $('#cuarto').value=t?.cuarto||''; $('#telefono').value=t?.telefono||''; $('#cedula').value=t?.cedula||''; }
+    function clear(){ setForm(null); }
+
+    async function api(path, opts={}) {
+      const res = await fetch(API + path, { headers:{'Content-Type':'application/json'}, ...opts });
+      if (!res.ok) throw new Error(await res.text());
+      const ct = res.headers.get('content-type')||''; return ct.includes('application/json')?res.json():null;
+    }
+
+    async function cargar(){
+      const list = await api('/tenants');
+      $('#tbody').innerHTML = list.map(t => `
+        <tr>
+          <td>${t.nombre}</td><td>${t.cuarto}</td><td>${t.telefono}</td><td>${t.cedula}</td>
+          <td>
+            <button class="btn btn-primary" data-edit="${t.id}">Editar</button>
+            <button class="btn btn-danger"  data-del="${t.id}">Eliminar</button>
+          </td>
+        </tr>`).join('');
+    }
+
+    $('#f').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
+      const d = formData();
+
+      // reglas mínimas
+      if(!/^[0-9]+-[A-Za-z]$/.test(d.cuarto)) return showERR('Cuarto: ej 4-K');
+      if(!/^(\d{4}-\d{4}|\d{8})$/.test(d.telefono)) return showERR('Teléfono: 8 dígitos');
+      if(!/^\d{1}-\d{4}-\d{4}$/.test(d.cedula)) return showERR('Cédula: 1-2345-6789');
+
+      try {
+        if (d.id) {
+          await api('/tenants/'+d.id, { method:'PUT', body: JSON.stringify({ nombre:d.nombre, cuarto:d.cuarto, telefono:d.telefono, cedula:d.cedula }) });
+          showOK('Inquilino actualizado');
+        } else {
+          await api('/tenants', { method:'POST', body: JSON.stringify({ nombre:d.nombre, cuarto:d.cuarto, telefono:d.telefono, cedula:d.cedula }) });
+          showOK('Inquilino creado');
+        }
+        clear(); await cargar();
+      } catch { showERR('Error guardando'); }
+    });
+
+    $('#limpiar').addEventListener('click', clear);
+
+    document.addEventListener('click', async (e)=>{
+      const editId = e.target.getAttribute('data-edit');
+      const delId  = e.target.getAttribute('data-del');
+
+      if (editId) {
+        try {
+          const list = await api('/tenants');
+          const t = list.find(x => String(x.id) === String(editId));
+          if (t) setForm(t); window.scrollTo({ top:0, behavior:'smooth' });
+        } catch { showERR('No se pudo cargar'); }
+      }
+      if (delId) {
+        if (!confirm('¿Eliminar este inquilino?')) return;
+        try { await api('/tenants/'+delId, { method:'DELETE' }); showOK('Eliminado'); if($('#id').value===String(delId)) clear(); await cargar(); }
+        catch { showERR('No se pudo eliminar'); }
+      }
+    });
+
+    cargar();
+  </script>
+</body>
+</html>
