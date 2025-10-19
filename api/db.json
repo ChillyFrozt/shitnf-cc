@@ -1,5 +1,27 @@
 {
-  "tenants": [],
+  "tenants": [
+    {
+      "id": "4727",
+      "nombre": "Ana",
+      "cuarto": "4-K",
+      "telefono": "88884444",
+      "cedula": "119180494"
+    },
+    {
+      "id": "e530",
+      "nombre": "Nick Gurr",
+      "cuarto": "6-K",
+      "telefono": "11112222",
+      "cedula": "123456789"
+    },
+    {
+      "id": "bf4c",
+      "nombre": "Nick",
+      "cuarto": "8-K",
+      "telefono": "22222223",
+      "cedula": "123456774"
+    }
+  ],
   "payments": [],
   "admins": [],
   "reports": []

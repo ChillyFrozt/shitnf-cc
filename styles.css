@@ -863,3 +863,103 @@
   margin-bottom: 45px;
 }
 /*################################################*/
+
+/* Boton Buscar */
+/* === BOTÓN BUSCAR === */
+.btnBuscar {
+  font-size: 1.2rem;
+  background-image: linear-gradient(to top, #3e3ef4 10%, #b721ff 100%);
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  color: #fcfaf7;
+  margin-top: 2rem;
+  cursor: pointer;
+  position: absolute;   /* ✅ parte del body */
+  top: 90px;            /* ajusta según tu navbar */
+  right: 20px;
+  transition: all 0.35s;
+  outline: none;
+  overflow: hidden;
+  z-index: 100;         /* para evitar solaparse con el fondo */
+}
+
+.btnBuscar a,
+.btnBuscar span {
+  position: relative;
+  z-index: 2;
+  color: #fcfaf7;
+  text-decoration: none;
+}
+
+.btnBuscar::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #3e3ef4;
+  transition: all 0.35s;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.btnBuscar:hover {
+  color: #fcfaf7;
+  transform: scale(1.03); /* igual que el efecto de suavidad original */
+}
+
+.btnBuscar:hover::after {
+  width: 100%; /* ✅ el fondo azul se expande debajo del texto */
+}
+
+/* === BOTÓN VOLVER === */
+/* Botón Volver: igual al de Buscar, pero a la izquierda */
+#btnVolver{
+  font-size: 1.2rem;
+  background-image: linear-gradient(to top, #3e3ef4 10%, #b721ff 100%);
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  color: #fcfaf7;
+  cursor: pointer;
+  position: absolute;   /* parte del body (se mueve con el scroll) */
+  top: 110px;            /* ajusta según navbar */
+  left: 20px;           /* esquina sup. izquierda */
+  transition: all 0.35s;
+  outline: none;
+  overflow: hidden;     /* para el efecto del overlay */
+  z-index: 100;
+  text-decoration: none;
+}
+
+#btnVolver span{
+  position: relative;   /* mantiene el texto arriba del overlay */
+  z-index: 2;
+  color: #fcfaf7;
+  text-decoration: none;
+}
+
+#btnVolver::after{
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #3e3ef4;
+  transition: all 0.35s;
+  border-radius: 4px;
+  z-index: 1;           /* detrás del texto */
+  pointer-events: none; /* el overlay NO bloquea el click */
+}
+
+#btnVolver:hover{
+  transform: scale(1.03);
+}
+
+#btnVolver:hover::after{
+  width: 100%;          /* animación de llenado bajo el texto */
+}
+
