@@ -85,87 +85,153 @@
     <p class="website__rights">© Casa Campus TEC 2025. Derechos Reservados</p>
   </div>
 
-  <script>
-    const API = 'http://localhost:3001';
-    const $ = s => document.querySelector(s);
-    const ok = $('#ok'), err = $('#err');
 
-    function showOK(t){ ok.textContent=t; ok.style.display='block'; setTimeout(()=>ok.style.display='none',2000); }
-    function showERR(t){ err.textContent=t; err.style.display='block'; setTimeout(()=>err.style.display='none',3500); }
+<script>
+  const API = 'http://localhost:3001';
+  const $ = s => document.querySelector(s);
 
-    function formData(){
-      return {
-        id: $('#id').value ? Number($('#id').value) : null,
-        nombre: $('#nombre').value.trim(),
-        cuarto: $('#cuarto').value.trim().toUpperCase(),
-        telefono: $('#telefono').value.trim(),
-        cedula: $('#cedula').value.trim()
-      };
+  const ok  = $('#ok');
+  const err = $('#err');
+  const tbody = $('#tbody');      // <- asegúrate de tener <tbody id="tbody">
+
+  let editingId = null;           // <- usamos esto para decidir si es EDITAR o CREAR
+
+  function showOK(t){ ok.textContent=t; ok.style.display='block'; setTimeout(()=>ok.style.display='none',2000); }
+  function showERR(t){ err.textContent=t; err.style.display='block'; setTimeout(()=>err.style.display='none',3500); }
+
+  function setForm(t){
+    $('#id').value       = t?.id ?? '';
+    $('#nombre').value   = t?.nombre ?? '';
+    $('#cuarto').value   = t?.cuarto ?? '';
+    $('#telefono').value = t?.telefono ?? '';
+    $('#cedula').value   = t?.cedula ?? '';
+  }
+
+  function clearForm(){
+    editingId = null;             // <- salir de modo edición
+    setForm(null);
+  }
+
+  async function api(path, opts={}) {
+    const res = await fetch(API + path, { headers:{'Content-Type':'application/json'}, ...opts });
+    if (!res.ok) {
+      let m = 'Error';
+      try { m = (await res.json()).error || m; } catch {}
+      throw new Error(m);
     }
-    function setForm(t){ $('#id').value=t?.id||''; $('#nombre').value=t?.nombre||''; $('#cuarto').value=t?.cuarto||''; $('#telefono').value=t?.telefono||''; $('#cedula').value=t?.cedula||''; }
-    function clear(){ setForm(null); }
+    const ct = res.headers.get('content-type') || '';
+    return ct.includes('application/json') ? res.json() : null;
+  }
 
-    async function api(path, opts={}) {
-      const res = await fetch(API + path, { headers:{'Content-Type':'application/json'}, ...opts });
-      if (!res.ok) throw new Error(await res.text());
-      const ct = res.headers.get('content-type')||''; return ct.includes('application/json')?res.json():null;
+  async function cargar(){
+    const list = await api('/tenants');
+    tbody.innerHTML = list.map(t => `
+      <tr data-id="${t.id}">
+        <td>${t.nombre}</td>
+        <td>${t.cuarto}</td>
+        <td>${t.telefono}</td>
+        <td>${t.cedula}</td>
+        <td>
+          <button type="button" class="btn btn-primary" data-action="edit" data-id="${t.id}">Editar</button>
+          <button type="button" class="btn btn-danger"  data-action="del"  data-id="${t.id}">Eliminar</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function cargarUno(id) {
+    const t = await api(`/tenants/${id}`);
+    setForm(t);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validarDatos(d){
+    if (!/^[0-9]+-[A-Za-z]$/.test(d.cuarto)) return 'Cuarto debe ser número-letra (ej: 4-K)';
+    if (!/^(\d{4}-\d{4}|\d{8})$/.test(d.telefono)) return 'Teléfono: 8 dígitos (con o sin guion)';
+    if (!/^(\d{1}-\d{4}-\d{4}|\d{9})$/.test(d.cedula)) return 'Cédula: 1-2345-6789 o 123456789';
+    return null;
+  }
+
+  // --- submit (crear o editar) ---
+  $('#f').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
+
+    const payload = {
+      nombre:   $('#nombre').value.trim(),
+      cuarto:   $('#cuarto').value.trim().toUpperCase(),
+      telefono: $('#telefono').value.trim(),
+      cedula:   $('#cedula').value.trim()
+    };
+
+    const msg = validarDatos(payload);
+    if (msg) { showERR(msg); return; }
+
+    try {
+      if (editingId !== null) {
+        // EDITAR: usar editingId (no el hidden)
+        await api(`/tenants/${encodeURIComponent(editingId)}`, {
+          method: 'PATCH',
+          body: JSON.stringify(payload)
+        });
+        showOK('Inquilino actualizado');
+      } else {
+        // CREAR
+        await api('/tenants', { method: 'POST', body: JSON.stringify(payload) });
+        showOK('Inquilino creado');
+      }
+      clearForm();
+      await cargar();
+    } catch (e) {
+      showERR(e.message || 'No se pudo guardar');
     }
+  });
 
-    async function cargar(){
-      const list = await api('/tenants');
-      $('#tbody').innerHTML = list.map(t => `
-        <tr>
-          <td>${t.nombre}</td><td>${t.cuarto}</td><td>${t.telefono}</td><td>${t.cedula}</td>
-          <td>
-            <button class="btn btn-primary" data-edit="${t.id}">Editar</button>
-            <button class="btn btn-danger"  data-del="${t.id}">Eliminar</button>
-          </td>
-        </tr>`).join('');
-    }
+  // --- limpiar ---
+  $('#limpiar').addEventListener('click', clearForm);
 
-    $('#f').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
-      const d = formData();
+  // --- delegación de clicks (editar / eliminar) ---
+  document.addEventListener('click', async (e)=>{
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
 
-      // reglas mínimas
-      if(!/^[0-9]+-[A-Za-z]$/.test(d.cuarto)) return showERR('Cuarto: ej 4-K');
-      if(!/^(\d{4}-\d{4}|\d{8})$/.test(d.telefono)) return showERR('Teléfono: 8 dígitos');
-      if(!/^\d{1}-\d{4}-\d{4}$/.test(d.cedula)) return showERR('Cédula: 1-2345-6789');
+    e.preventDefault();
+    e.stopPropagation();
 
+    const action = btn.getAttribute('data-action');
+    const idRaw  = btn.getAttribute('data-id');
+    if (!idRaw) { showERR('ID inválido'); return; }
+
+    if (action === 'edit') {
       try {
-        if (d.id) {
-          await api('/tenants/'+d.id, { method:'PUT', body: JSON.stringify({ nombre:d.nombre, cuarto:d.cuarto, telefono:d.telefono, cedula:d.cedula }) });
-          showOK('Inquilino actualizado');
-        } else {
-          await api('/tenants', { method:'POST', body: JSON.stringify({ nombre:d.nombre, cuarto:d.cuarto, telefono:d.telefono, cedula:d.cedula }) });
-          showOK('Inquilino creado');
-        }
-        clear(); await cargar();
-      } catch { showERR('Error guardando'); }
-    });
-
-    $('#limpiar').addEventListener('click', clear);
-
-    document.addEventListener('click', async (e)=>{
-      const editId = e.target.getAttribute('data-edit');
-      const delId  = e.target.getAttribute('data-del');
-
-      if (editId) {
-        try {
-          const list = await api('/tenants');
-          const t = list.find(x => String(x.id) === String(editId));
-          if (t) setForm(t); window.scrollTo({ top:0, behavior:'smooth' });
-        } catch { showERR('No se pudo cargar'); }
+        editingId = idRaw; // <- fija modo edición ANTES del fetch
+        const t = await api(`/tenants/${encodeURIComponent(idRaw)}`);
+        setForm(t);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (er) {
+        editingId = null;
+        showERR('No se pudo cargar el inquilino');
       }
-      if (delId) {
-        if (!confirm('¿Eliminar este inquilino?')) return;
-        try { await api('/tenants/'+delId, { method:'DELETE' }); showOK('Eliminado'); if($('#id').value===String(delId)) clear(); await cargar(); }
-        catch { showERR('No se pudo eliminar'); }
-      }
-    });
+      return;
+    }
 
-    cargar();
-  </script>
+    if (action === 'del') {
+      if (!confirm('¿Eliminar este inquilino?')) return;
+      try {
+        await api(`/tenants/${encodeURIComponent(idRaw)}`, { method: 'DELETE' });
+        if (editingId === idRaw) clearForm();
+        showOK('Inquilino eliminado');
+        await cargar();
+      } catch (er) {
+        showERR('No se pudo eliminar');
+      }
+      return;
+    }
+  });
+
+  // --- inicio ---
+  cargar();
+</script>
+
 </body>
 </html>

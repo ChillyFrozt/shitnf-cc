@@ -1,11 +1,6 @@
 {
-  "tenants": [
-    {
-      "id": 1,
-      "nombre": "Ana Gómez",
-      "cuarto": "4-K",
-      "telefono": "8888-8888",
-      "cedula": "1-2345-6789"
-    }
-  ]
+  "tenants": [],
+  "payments": [],
+  "admins": [],
+  "reports": []
 }
