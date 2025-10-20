@@ -1,0 +1,24 @@
+{
+  "name": "shitnf-cc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChillyFrozt/shitnf-cc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChillyFrozt/shitnf-cc/issues"
+  },
+  "homepage": "https://github.com/ChillyFrozt/shitnf-cc#readme",
+  "devDependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}
