@@ -6,6 +6,7 @@
   padding: 0;
   font-family: 'Lexend Deca', sans-serif;
 }
+
 /*################################################*/
 
 
@@ -186,6 +187,7 @@
     transform: translateY(-8px) rotate(-45deg);
   }
 }
+
 /*################################################*/
 
 
@@ -307,6 +309,7 @@
 }
 
 @media screen and (min-width: 769px) {
+
   .main_img-container img,
   #main_img {
     max-width: 700px;
@@ -325,7 +328,7 @@
     height: 90vh;
   }
 
-    .main_img-container img,
+  .main_img-container img,
   #main_img {
     width: 90%;
     max-width: 420px;
@@ -373,6 +376,7 @@
     margin: 2.5rem 0;
   }
 }
+
 /*################################################*/
 
 
@@ -418,6 +422,7 @@
     flex-direction: column;
   }
 }
+
 /*################################################*/
 
 /* Login */
@@ -453,7 +458,7 @@
   box-shadow: 0 0 20px #010101;
 }
 
-.login_wrapper h1{
+.login_wrapper h1 {
   font-size: 35px;
   text-align: center;
   margin-bottom: 35px;
@@ -513,11 +518,11 @@
   color: #fcfaf7;
 }
 
-.login_remember-forgot a:hover{
+.login_remember-forgot a:hover {
   text-decoration: underline;
 }
 
-.login_wrapper .btn{
+.login_wrapper .btn {
   width: 100%;
   height: 45px;
   background: #fcfaf7;
@@ -534,19 +539,19 @@
   margin-bottom: 1px;
 }
 
-.login_wrapper .login_register-link{
+.login_wrapper .login_register-link {
   font-size: 14.5px;
   text-align: center;
   margin: 20px 0 15px;
 }
 
-.login_register-link p a{
+.login_register-link p a {
   color: #fcfaf7;
   text-decoration: none;
   font-weight: 600;
 }
 
-.login_register-link p a:hover{
+.login_register-link p a:hover {
   text-decoration: underline;
 }
 
@@ -585,7 +590,7 @@
   box-shadow: 0 0 20px #010101;
 }
 
-.signup_wrapper h1{
+.signup_wrapper h1 {
   font-size: 35px;
   text-align: center;
   margin-bottom: 45px;
@@ -622,7 +627,7 @@
   color: #fcfaf7;
 }
 
-.signup_wrapper .btn{
+.signup_wrapper .btn {
   width: 100%;
   height: 45px;
   background: #fcfaf7;
@@ -632,28 +637,29 @@
   box-shadow: 0 0 10px #010101;
   color: #010101;
   font-size: 16px;
-  font-weight: 600; 
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-.signup_wrapper .signup_login-link{
+.signup_wrapper .signup_login-link {
   font-size: 14.5px;
   text-align: center;
   margin: 20px 0 5px;
 }
 
-.signup_login-link p a{
+.signup_login-link p a {
   color: #fcfaf7;
   text-decoration: none;
   font-weight: 600;
 }
 
-.signup_login-link p a:hover{
+.signup_login-link p a:hover {
   text-decoration: underline;
 }
+
 /*################################################*/
 
 /* find */
@@ -689,12 +695,12 @@
   box-shadow: 0 0 20px #010101;
 }
 
-.find_wrapper h1{
+.find_wrapper h1 {
   font-size: 34px;
   text-align: center;
 }
 
-.find_wrapper .find_text{
+.find_wrapper .find_text {
   font-size: 14.5px;
   text-align: center;
   margin: 20px 0 5px;
@@ -731,7 +737,7 @@
   color: #fcfaf7;
 }
 
-.find_wrapper .btn{
+.find_wrapper .btn {
   width: 100%;
   height: 45px;
   background: #fcfaf7;
@@ -741,7 +747,7 @@
   box-shadow: 0 0 10px #010101;
   color: #010101;
   font-size: 16px;
-  font-weight: 600; 
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 20px;
@@ -759,6 +765,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 /*################################################*/
 
 /* err */
@@ -785,28 +792,28 @@
   box-shadow: 0 0 20px #010101;
 }
 
-.err_wrapper h1{
+.err_wrapper h1 {
   font-size: 35px;
   text-align: center;
 }
 
-.err_wrapper .err_login-link{
+.err_wrapper .err_login-link {
   font-size: 14.5px;
   text-align: center;
   margin: 20px 0 5px;
 }
 
-.err_login-link p a{
+.err_login-link p a {
   color: #fcfaf7;
   text-decoration: none;
   font-weight: 600;
 }
 
-.err_login-link p a:hover{
+.err_login-link p a:hover {
   text-decoration: underline;
 }
 
-.err_wrapper .btn{
+.err_wrapper .btn {
   width: 100%;
   height: 45px;
   background: #fcfaf7;
@@ -816,12 +823,13 @@
   box-shadow: 0 0 10px #010101;
   color: #010101;
   font-size: 16px;
-  font-weight: 600; 
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 /*################################################*/
 
 /* template */
@@ -857,11 +865,12 @@
   box-shadow: 0 0 20px #010101;
 }
 
-.template_wrapper h1{
+.template_wrapper h1 {
   font-size: 35px;
   text-align: center;
   margin-bottom: 45px;
 }
+
 /*################################################*/
 
 /* Boton Buscar */
@@ -875,13 +884,16 @@
   color: #fcfaf7;
   margin-top: 2rem;
   cursor: pointer;
-  position: absolute;   /* ✅ parte del body */
-  top: 90px;            /* ajusta según tu navbar */
+  position: absolute;
+  /* ✅ parte del body */
+  top: 90px;
+  /* ajusta según tu navbar */
   right: 20px;
   transition: all 0.35s;
   outline: none;
   overflow: hidden;
-  z-index: 100;         /* para evitar solaparse con el fondo */
+  z-index: 100;
+  /* para evitar solaparse con el fondo */
 }
 
 .btnBuscar a,
@@ -907,41 +919,46 @@
 
 .btnBuscar:hover {
   color: #fcfaf7;
-  transform: scale(1.03); /* igual que el efecto de suavidad original */
+  transform: scale(1.03);
+  /* igual que el efecto de suavidad original */
 }
 
 .btnBuscar:hover::after {
-  width: 100%; /* ✅ el fondo azul se expande debajo del texto */
+  width: 100%;
+  /* ✅ el fondo azul se expande debajo del texto */
 }
 
 /* === BOTÓN VOLVER === */
 /* Botón Volver: igual al de Buscar, pero a la izquierda */
-#btnVolver{
+/* Estilos para el botón de "Volver" */
+.btnVolver {
   font-size: 1.2rem;
   background-image: linear-gradient(to top, #3e3ef4 10%, #b721ff 100%);
   padding: 14px 32px;
   border: none;
   border-radius: 4px;
   color: #fcfaf7;
+  margin-top: 2rem;
   cursor: pointer;
-  position: absolute;   /* parte del body (se mueve con el scroll) */
-  top: 110px;            /* ajusta según navbar */
-  left: 20px;           /* esquina sup. izquierda */
+  position: fixed;
+  top: 90px;
+  /* Lo posicionamos en la parte superior */
+  left: 20px;
+  /* A la izquierda */
   transition: all 0.35s;
   outline: none;
-  overflow: hidden;     /* para el efecto del overlay */
-  z-index: 100;
-  text-decoration: none;
+  z-index: 10;
+  /* Asegura que quede por encima de otros elementos */
 }
 
-#btnVolver span{
-  position: relative;   /* mantiene el texto arriba del overlay */
+.btnVolver a {
+  position: relative;
   z-index: 2;
   color: #fcfaf7;
   text-decoration: none;
 }
 
-#btnVolver::after{
+.btnVolver:after {
   position: absolute;
   content: '';
   top: 0;
@@ -951,15 +968,12 @@
   background: #3e3ef4;
   transition: all 0.35s;
   border-radius: 4px;
-  z-index: 1;           /* detrás del texto */
-  pointer-events: none; /* el overlay NO bloquea el click */
 }
 
-#btnVolver:hover{
-  transform: scale(1.03);
+.btnVolver:hover {
+  color: #fcfaf7;
 }
 
-#btnVolver:hover::after{
-  width: 100%;          /* animación de llenado bajo el texto */
+.btnVolver:hover:after {
+  width: 100%;
 }
-

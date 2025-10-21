@@ -85,6 +85,67 @@
       "cedula": "123434552"
     }
   ],
-  "payments": [],
+  "payments": [
+    {
+      "cuarto": "4-K",
+      "monto": 380,
+      "fecha": "2023-05-01"
+    },
+    {
+      "cuarto": "3-A",
+      "monto": 350,
+      "fecha": "2023-05-02"
+    },
+    {
+      "cuarto": "2-B",
+      "monto": 320,
+      "fecha": "2023-05-03"
+    },
+    {
+      "cuarto": "1-D",
+      "monto": 310,
+      "fecha": "2023-05-01"
+    },
+    {
+      "cuarto": "5-F",
+      "monto": 390,
+      "fecha": "2023-05-02"
+    },
+    {
+      "cuarto": "3-C",
+      "monto": 360,
+      "fecha": "2023-05-05"
+    },
+    {
+      "cuarto": "4-J",
+      "monto": 380,
+      "fecha": "2023-05-04"
+    },
+    {
+      "cuarto": "2-F",
+      "monto": 330,
+      "fecha": "2023-05-06"
+    },
+    {
+      "cuarto": "1-B",
+      "monto": 310,
+      "fecha": "2023-05-07"
+    },
+    {
+      "cuarto": "5-A",
+      "monto": 400,
+      "fecha": "2023-05-08"
+    },
+    {
+      "cuarto": "4-B",
+      "monto": 370,
+      "fecha": "2023-05-10"
+    },
+    {
+      "cuarto": "5-F",
+      "monto": 390,
+      "fecha": "2023-05-11"
+    }
+  ],
   "reports": []
 }

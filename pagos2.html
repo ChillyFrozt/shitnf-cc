@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestionar Pagos - Casa Campus</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .template_wrapper {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #fcfaf74d;
+            color: #fcfaf7;
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .grid label {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .grid input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #fcfaf7;
+            background: transparent;
+            color: #fcfaf7;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #fcfaf7;
+            color: #010101;
+        }
+
+        .btn-secondary {
+            background: #3e3ef4;
+            color: #fcfaf7;
+            border: 1px solid #fcfaf7;
+        }
+
+        .alert {
+            display: none;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .alert.ok {
+            background: #98be4f;
+            color: #010101;
+        }
+
+        .alert.err {
+            background: #fe6138;
+            color: #fcfaf7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="btnBuscar"><a href="pagos.html">Volver</a></button>
+
+    <!-- Navbar (igual que las demás páginas) -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="/home.html"><img id="navbar__logo" src="images/logo.png" alt="Logo" /></a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item"><a href="/inquilinos.html" class="navbar__links">Inquilinos</a></li>
+                <li class="navbar__item"><a href="/pagos.html" class="navbar__links">Pagos</a></li>
+                <li class="navbar__item"><a href="/reportes.html" class="navbar__links">Reportes</a></li>
+                <li class="navbar__btn"><a href="/login.html" class="navbar__button">Iniciar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="template_container">
+        <div class="template_wrapper">
+            <h1 style="text-align:center;margin:12px 0 20px;">Gestionar Pagos</h1>
+
+            <div id="ok" class="alert ok"></div>
+            <div id="err" class="alert err"></div>
+
+            <form id="formPago" autocomplete="off">
+                <div class="grid">
+                    <div>
+                        <label for="cuarto">Número de cuarto</label>
+                        <input id="cuarto" required placeholder="4-K" pattern="^[0-9]+-[A-Za-z]$" title="Ej: 4-K" />
+                    </div>
+                    <div>
+                        <label for="monto">Monto de pago</label>
+                        <input id="monto" required placeholder="300" type="number" />
+                    </div>
+                    <div>
+                        <label for="fecha">Fecha de pago</label>
+                        <input id="fecha" required type="date" />
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" type="submit">Registrar Pago</button>
+                    <button class="btn btn-secondary" type="button" id="limpiar">Limpiar</button>
+                </div>
+            </form>
+
+            <h2>Pagos Realizados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cuarto</th>
+                        <th>Monto</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyPagos"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer_container">
+        <div class="social__media--wrap">
+            <img id="footer_logo" src="images/logo.png" />
+        </div>
+        <p class="website__rights">© Casa Campus TEC 2025. Derechos Reservados</p>
+    </div>
+
+    <script>
+        const API = 'http://localhost:3001';
+        const $ = s => document.querySelector(s);
+
+        const ok = $('#ok');
+        const err = $('#err');
+        const tbody = $('#tbodyPagos');
+
+        async function api(path, opts = {}) {
+            const res = await fetch(API + path, { headers: { 'Content-Type': 'application/json' }, ...opts });
+            const text = await res.text();
+            if (!res.ok) throw new Error(`${res.status} ${res.statusText} - ${text || 'sin cuerpo'}`);
+            try { return text ? JSON.parse(text) : null; } catch { return null; }
+        }
+
+        // Función para cargar pagos
+        async function cargarPagos() {
+            const list = await api('/payments');
+            tbody.innerHTML = list.map(t => `
+      <tr data-id="${t.id}">
+        <td>${t.cuarto}</td>
+        <td>${t.monto}</td>
+        <td>${t.fecha}</td>
+        <td>
+          <button type="button" class="btn btn-danger" data-action="del" data-id="${t.id}">Eliminar</button>
+        </td>
+      </tr>
+    `).join('');
+        }
+
+        // Registrar pago
+        $('#formPago').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
+
+            const payload = {
+                cuarto: $('#cuarto').value.trim().toUpperCase(),
+                monto: $('#monto').value.trim(),
+                fecha: $('#fecha').value.trim()
+            };
+
+            try {
+                await api('/payments', { method: 'POST', body: JSON.stringify(payload) });
+                showOK('Pago registrado');
+                await cargarPagos();
+            } catch (e) {
+                showERR('Error al guardar: ' + (e.message || ''));
+            }
+        });
+
+        // Eliminar pago
+        document.addEventListener('click', async (e) => {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const action = btn.getAttribute('data-action');
+            const idRaw = btn.getAttribute('data-id');
+            if (!idRaw) { showERR('ID inválido'); return; }
+
+            if (action === 'del') {
+                if (!confirm('¿Eliminar este pago?')) return;
+                try {
+                    await api(`/payments/${encodeURIComponent(idRaw)}`, { method: 'DELETE' });
+                    showOK('Pago eliminado');
+                    await cargarPagos();
+                } catch (e) {
+                    showERR('No se pudo eliminar');
+                }
+            }
+        });
+
+        // Mostrar mensajes
+        const showOK = (msg) => { ok.textContent = msg; ok.style.display = 'block'; setTimeout(() => ok.style.display = 'none', 2000); };
+        const showERR = (msg) => { err.textContent = msg; err.style.display = 'block'; setTimeout(() => err.style.display = 'none', 3500); };
+
+        // Limpiar formulario
+        $('#limpiar').addEventListener('click', () => {
+            $('#formPago').reset();
+        });
+
+        cargarPagos(); // Cargar pagos al inicio
+    </script>
+</body>
+
+</html>
