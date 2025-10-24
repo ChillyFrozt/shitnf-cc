@@ -83,68 +83,81 @@
       "cuarto": "5-F",
       "telefono": "11112222",
       "cedula": "123434552"
+    },
+    {
+      "id": "8c3c",
+      "nombre": "Jaime",
+      "cuarto": "4-F",
+      "telefono": "12233334",
+      "cedula": "134567754"
     }
   ],
   "payments": [
     {
       "cuarto": "4-K",
       "monto": 380,
-      "fecha": "2023-05-01"
+      "fecha": "2025-10-18"
     },
     {
       "cuarto": "3-A",
       "monto": 350,
-      "fecha": "2023-05-02"
+      "fecha": "2025-10-07"
     },
     {
       "cuarto": "2-B",
       "monto": 320,
-      "fecha": "2023-05-03"
+      "fecha": "2025-10-20"
     },
     {
       "cuarto": "1-D",
       "monto": 310,
-      "fecha": "2023-05-01"
+      "fecha": "2025-10-04"
     },
     {
       "cuarto": "5-F",
-      "monto": 390,
-      "fecha": "2023-05-02"
+      "monto": 400,
+      "fecha": "2025-10-22"
     },
     {
       "cuarto": "3-C",
       "monto": 360,
-      "fecha": "2023-05-05"
+      "fecha": "2025-10-10"
     },
     {
       "cuarto": "4-J",
       "monto": 380,
-      "fecha": "2023-05-04"
+      "fecha": "2025-10-15"
     },
     {
       "cuarto": "2-F",
       "monto": 330,
-      "fecha": "2023-05-06"
+      "fecha": "2025-10-23"
     },
     {
       "cuarto": "1-B",
       "monto": 310,
-      "fecha": "2023-05-07"
+      "fecha": "2025-10-09"
     },
     {
       "cuarto": "5-A",
-      "monto": 400,
-      "fecha": "2023-05-08"
+      "monto": 395,
+      "fecha": "2025-10-24"
     },
     {
       "cuarto": "4-B",
       "monto": 370,
-      "fecha": "2023-05-10"
+      "fecha": "2025-10-12"
     },
     {
       "cuarto": "5-F",
-      "monto": 390,
-      "fecha": "2023-05-11"
+      "monto": 400,
+      "fecha": "2025-10-19"
+    },
+    {
+      "id": "1c51",
+      "cuarto": "4-F",
+      "monto": "355",
+      "fecha": "2025-10-22"
     }
   ],
   "reports": []

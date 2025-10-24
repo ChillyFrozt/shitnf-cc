@@ -941,7 +941,7 @@
   margin-top: 2rem;
   cursor: pointer;
   position: fixed;
-  top: 90px;
+  top: 110px;
   /* Lo posicionamos en la parte superior */
   left: 20px;
   /* A la izquierda */
@@ -976,4 +976,66 @@
 
 .btnVolver:hover:after {
   width: 100%;
+}
+
+/* === BOTÓN IMPRIMIR === */
+/* === BOTÓN IMPRIMIR === */
+.btnImprimir {
+  font-size: 1.2rem;
+  background-image: linear-gradient(to top, #3e3ef4 10%, #b721ff 100%);
+  padding: 14px 32px;
+  border: none;
+  border-radius: 4px;
+  color: #fcfaf7;
+  margin-top: 2rem;
+  cursor: pointer;
+  position: absolute;
+  /* igual que btnBuscar pero del lado izquierdo */
+  top: 90px;
+  left: 20px;
+  transition: all 0.35s;
+  outline: none;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.btnImprimir a,
+.btnImprimir span {
+  position: relative;
+  z-index: 2;
+  color: #fcfaf7;
+  text-decoration: none;
+}
+
+.btnImprimir::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #3e3ef4;
+  transition: all 0.35s;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.btnImprimir:hover {
+  color: #fcfaf7;
+  transform: scale(1.03);
+}
+
+.btnImprimir:hover::after {
+  width: 100%;
+}
+
+/* Ocultar al imprimir */
+@media print {
+
+  .btnImprimir,
+  .btnBuscar,
+  .navbar,
+  .footer_container {
+    display: none !important;
+  }
 }

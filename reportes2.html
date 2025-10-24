@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reporte de Pagos - Casa Campus</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .template_wrapper {
+            max-width: 1100px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #fcfaf74d;
+            color: #fcfaf7;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        th {
+            border-bottom: 2px solid #fcfaf7;
+        }
+
+        td:first-child,
+        th:first-child {
+            text-align: left;
+            padding-left: 16px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #fcfaf7;
+            color: #010101;
+        }
+
+        .btn-secondary {
+            background: #3e3ef4;
+            color: #fcfaf7;
+            border: 1px solid #fcfaf7;
+        }
+
+        .alert {
+            display: none;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .alert.ok {
+            background: #98be4f;
+            color: #010101;
+        }
+
+        .alert.err {
+            background: #fe6138;
+            color: #fcfaf7;
+        }
+
+        /* Botón volver (igual que los otros) */
+        .btnVolver {
+            font-size: 1.2rem;
+            background-image: linear-gradient(to top, #3e3ef4 10%, #b721ff 100%);
+            padding: 14px 32px;
+            border: none;
+            border-radius: 4px;
+            color: #fcfaf7;
+            margin-top: 2rem;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            transition: all 0.35s;
+            outline: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .btnVolver a {
+            position: relative;
+            z-index: 2;
+            color: #fcfaf7;
+            text-decoration: none;
+        }
+
+        .btnVolver::after {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: #3e3ef4;
+            transition: all 0.35s;
+            border-radius: 4px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .btnVolver:hover::after {
+            width: 100%;
+        }
+
+        /* Botón imprimir */
+        .btnPrint {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            font-size: 1.0rem;
+            background: #fcfaf7;
+            color: #010101;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+
+        /* Column widths */
+        colgroup col:nth-child(1) {
+            width: 22%;
+        }
+
+        colgroup col:nth-child(2) {
+            width: 10%;
+        }
+
+        colgroup col:nth-child(3) {
+            width: 16%;
+        }
+
+        colgroup col:nth-child(4) {
+            width: 16%;
+        }
+
+        colgroup col:nth-child(5) {
+            width: 18%;
+        }
+
+        colgroup col:nth-child(6) {
+            width: 18%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BOTÓN VOLVER -->
+    <button class="btnBuscar"><a href="reportes.html">Volver</a></button>
+
+    <!-- BOTÓN IMPRIMIR -->
+    <button class="btnImprimir" id="btnImprimir"><span>Imprimir / PDF</span></button>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="/home.html"><img id="navbar__logo" src="images/logo.png" alt="Logo" /></a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item"><a href="/inquilinos.html" class="navbar__links">Inquilinos</a></li>
+                <li class="navbar__item"><a href="/pagos.html" class="navbar__links">Pagos</a></li>
+                <li class="navbar__item"><a href="/reportes.html" class="navbar__links">Reportes</a></li>
+                <li class="navbar__btn"><a href="/login.html" class="navbar__button">Iniciar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="template_container">
+        <div class="template_wrapper">
+            <h1 style="text-align:center;margin:12px 0 20px;">Reporte General de Inquilinos y Pagos</h1>
+
+            <div id="ok" class="alert ok"></div>
+            <div id="err" class="alert err"></div>
+
+            <table>
+                <colgroup>
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                    <col />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cuarto</th>
+                        <th>Teléfono</th>
+                        <th>Cédula</th>
+                        <th>Último pago</th>
+                        <th>Próximo vencimiento</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer_container">
+        <div class="social__media--wrap">
+            <img id="footer_logo" src="images/logo.png" />
+        </div>
+        <p class="website__rights">© Casa Campus TEC 2025. Derechos Reservados</p>
+    </div>
+
+    <script>
+        const API = 'http://localhost:3001';
+        const $ = s => document.querySelector(s);
+
+        const ok = $('#ok');
+        const err = $('#err');
+        const tbody = $('#tbody');
+
+        const showOK = t => { ok.textContent = t; ok.style.display = 'block'; setTimeout(() => ok.style.display = 'none', 2000); };
+        const showERR = t => { err.textContent = t; err.style.display = 'block'; setTimeout(() => err.style.display = 'none', 3500); };
+
+        const fmtDate = (iso) => {
+            if (!iso) return '—';
+            const d = new Date(iso);
+            if (isNaN(d)) return '—';
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yyyy = d.getFullYear();
+            return `${dd}/${mm}/${yyyy}`;
+        };
+
+        const addMonths = (iso, months = 1) => {
+            const d = new Date(iso);
+            if (isNaN(d)) return null;
+            const day = d.getDate();
+            d.setMonth(d.getMonth() + months);
+            if (d.getDate() < day) d.setDate(0);
+            return d.toISOString().slice(0, 10);
+        };
+
+        const fmtUSD = (n) => {
+            if (n == null) return '—';
+            const num = Number(n);
+            if (isNaN(num)) return '—';
+            return `$${num.toFixed(2)} USD`;
+        };
+
+        async function api(path, opts = {}) {
+            const res = await fetch(API + path, { headers: { 'Content-Type': 'application/json' }, ...opts });
+            const txt = await res.text();
+            if (!res.ok) throw new Error(`${res.status} ${res.statusText} - ${txt || 'sin cuerpo'}`);
+            try { return txt ? JSON.parse(txt) : null; } catch { return null; }
+        }
+
+        function ultimoPagoPorCuarto(cuarto, payments) {
+            const lista = payments.filter(p => (p.cuarto || '').toUpperCase() === (cuarto || '').toUpperCase());
+            if (lista.length === 0) return null;
+            lista.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            return lista[0];
+        }
+
+        async function cargarReporte() {
+            try {
+                const [tenants, payments] = await Promise.all([
+                    api('/tenants'),
+                    api('/payments')
+                ]);
+
+                const rows = tenants.map(t => {
+                    const up = ultimoPagoPorCuarto(t.cuarto, payments);
+                    const lastAmount = up?.monto ?? null;
+                    const lastDate = up?.fecha ?? null;
+                    const nextDueISO = lastDate ? addMonths(lastDate, 1) : null;
+
+                    let estado = '';
+                    if (nextDueISO) {
+                        const hoyISO = new Date().toISOString().slice(0, 10);
+                        if (hoyISO > nextDueISO) estado = ' (atrasado)';
+                    }
+
+                    return `
+          <tr>
+            <td>${t.nombre}</td>
+            <td>${t.cuarto}</td>
+            <td>${t.telefono}</td>
+            <td>${t.cedula}</td>
+            <td>${lastAmount ? `${fmtUSD(lastAmount)} · ${fmtDate(lastDate)}` : 'Sin pagos'}</td>
+            <td>${nextDueISO ? `${fmtDate(nextDueISO)}${estado}` : '—'}</td>
+          </tr>
+        `;
+                });
+
+                tbody.innerHTML = rows.join('');
+                showOK('Reporte generado');
+            } catch (e) {
+                console.error(e);
+                showERR('No se pudo generar el reporte');
+            }
+        }
+
+        $('#btnImprimir').addEventListener('click', () => window.print());
+        cargarReporte();
+    </script>
+</body>
+
+</html>
