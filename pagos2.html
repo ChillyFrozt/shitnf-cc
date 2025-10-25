@@ -174,16 +174,19 @@
             try { return text ? JSON.parse(text) : null; } catch { return null; }
         }
 
-        // Función para cargar pagos
+        const showOK = (msg) => { ok.textContent = msg; ok.style.display = 'block'; setTimeout(() => ok.style.display = 'none', 2000); };
+        const showERR = (msg) => { err.textContent = msg; err.style.display = 'block'; setTimeout(() => err.style.display = 'none', 3500); };
+
+        // Cargar pagos
         async function cargarPagos() {
             const list = await api('/payments');
-            tbody.innerHTML = list.map(t => `
-      <tr data-id="${t.id}">
-        <td>${t.cuarto}</td>
-        <td>${t.monto}</td>
-        <td>${t.fecha}</td>
+            tbody.innerHTML = list.map(p => `
+      <tr data-id="${p.id ?? ''}" data-cuarto="${(p.cuarto || '')}" data-fecha="${(p.fecha || '')}" data-monto="${p.monto}">
+        <td>${p.cuarto}</td>
+        <td>${p.monto}</td>
+        <td>${p.fecha}</td>
         <td>
-          <button type="button" class="btn btn-danger" data-action="del" data-id="${t.id}">Eliminar</button>
+          <button type="button" class="btn btn-danger" data-action="del" data-id="${p.id ?? ''}">Eliminar</button>
         </td>
       </tr>
     `).join('');
@@ -192,25 +195,25 @@
         // Registrar pago
         $('#formPago').addEventListener('submit', async (e) => {
             e.preventDefault();
-
             if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
 
             const payload = {
                 cuarto: $('#cuarto').value.trim().toUpperCase(),
-                monto: $('#monto').value.trim(),
+                monto: Number($('#monto').value), // guarda como número
                 fecha: $('#fecha').value.trim()
             };
 
             try {
                 await api('/payments', { method: 'POST', body: JSON.stringify(payload) });
                 showOK('Pago registrado');
+                e.target.reset();
                 await cargarPagos();
             } catch (e) {
                 showERR('Error al guardar: ' + (e.message || ''));
             }
         });
 
-        // Eliminar pago
+        // Eliminar pago (soporta pagos sin id en db.json)
         document.addEventListener('click', async (e) => {
             const btn = e.target.closest('[data-action]');
             if (!btn) return;
@@ -219,32 +222,46 @@
             e.stopPropagation();
 
             const action = btn.getAttribute('data-action');
-            const idRaw = btn.getAttribute('data-id');
-            if (!idRaw) { showERR('ID inválido'); return; }
+            if (action !== 'del') return;
 
-            if (action === 'del') {
-                if (!confirm('¿Eliminar este pago?')) return;
+            // id directo del botón (si existe)
+            let id = btn.getAttribute('data-id');
+            const tr = btn.closest('tr');
+
+            if (!id) {
+                // Buscar por cuarto + fecha + monto cuando no hay id
+                const cuarto = tr.getAttribute('data-cuarto') || '';
+                const fecha = tr.getAttribute('data-fecha') || '';
+                const monto = tr.getAttribute('data-monto') || '';
+
                 try {
-                    await api(`/payments/${encodeURIComponent(idRaw)}`, { method: 'DELETE' });
-                    showOK('Pago eliminado');
-                    await cargarPagos();
-                } catch (e) {
-                    showERR('No se pudo eliminar');
-                }
+                    const matches = await api(`/payments?cuarto=${encodeURIComponent(cuarto)}&fecha=${encodeURIComponent(fecha)}&monto=${encodeURIComponent(monto)}`);
+                    if (Array.isArray(matches) && matches.length && matches[0].id != null) {
+                        id = matches[0].id;
+                    }
+                } catch (_) { /* ignore */ }
+            }
+
+            if (!id) { showERR('No se encontró el pago a eliminar'); return; }
+            if (!confirm('¿Eliminar este pago?')) return;
+
+            try {
+                await api(`/payments/${encodeURIComponent(id)}`, { method: 'DELETE' });
+                showOK('Pago eliminado');
+                await cargarPagos();
+            } catch (e) {
+                showERR('No se pudo eliminar');
             }
         });
-
-        // Mostrar mensajes
-        const showOK = (msg) => { ok.textContent = msg; ok.style.display = 'block'; setTimeout(() => ok.style.display = 'none', 2000); };
-        const showERR = (msg) => { err.textContent = msg; err.style.display = 'block'; setTimeout(() => err.style.display = 'none', 3500); };
 
         // Limpiar formulario
         $('#limpiar').addEventListener('click', () => {
             $('#formPago').reset();
         });
 
-        cargarPagos(); // Cargar pagos al inicio
+        cargarPagos(); // inicio
     </script>
+
 </body>
 
 </html>

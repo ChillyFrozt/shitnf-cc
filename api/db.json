@@ -5,80 +5,73 @@
       "cuarto": "4-K",
       "telefono": "88888888",
       "cedula": "123456789",
-      "id": 1
+      "id": "1"
     },
     {
       "nombre": "Carlos Méndez",
       "cuarto": "3-A",
       "telefono": "88776655",
       "cedula": "205460987",
-      "id": 2
+      "id": "2"
     },
     {
       "nombre": "Lucía Rojas",
       "cuarto": "2-B",
       "telefono": "89997777",
       "cedula": "302560991",
-      "id": 3
+      "id": "3"
     },
     {
       "nombre": "José Ramírez",
       "cuarto": "1-D",
       "telefono": "88112233",
       "cedula": "104780231",
-      "id": 4
+      "id": "4"
     },
     {
       "nombre": "María Torres",
       "cuarto": "5-F",
       "telefono": "83224455",
       "cedula": "601890276",
-      "id": 5
+      "id": "5"
     },
     {
       "nombre": "Pedro Vargas",
       "cuarto": "3-C",
       "telefono": "89776655",
       "cedula": "502140987",
-      "id": 6
+      "id": "6"
     },
     {
       "nombre": "Daniela Castillo",
       "cuarto": "4-J",
       "telefono": "88889999",
       "cedula": "401670423",
-      "id": 7
+      "id": "7"
     },
     {
       "nombre": "Sofía Hernández",
       "cuarto": "2-F",
       "telefono": "88665544",
       "cedula": "207540230",
-      "id": 8
+      "id": "8"
     },
     {
       "nombre": "Miguel Mora",
       "cuarto": "1-B",
       "telefono": "88773344",
       "cedula": "119770912",
-      "id": 9
+      "id": "9"
     },
     {
       "nombre": "Elena Campos",
       "cuarto": "5-A",
       "telefono": "88990022",
       "cedula": "117880945",
-      "id": 10
+      "id": "10"
     },
     {
-      "id": 11,
-      "nombre": "Nick Gurr",
-      "cuarto": "4-B",
-      "telefono": "12345678",
-      "cedula": "123456789"
-    },
-    {
-      "id": 12,
+      "id": "12",
       "nombre": "Orion",
       "cuarto": "5-F",
       "telefono": "11112222",
@@ -87,7 +80,7 @@
     {
       "id": "8c3c",
       "nombre": "Jaime",
-      "cuarto": "4-F",
+      "cuarto": "4-B",
       "telefono": "12233334",
       "cedula": "134567754"
     }
@@ -96,68 +89,68 @@
     {
       "cuarto": "4-K",
       "monto": 380,
-      "fecha": "2025-10-18"
+      "fecha": "2025-10-18",
+      "id": "58df"
     },
     {
       "cuarto": "3-A",
       "monto": 350,
-      "fecha": "2025-10-07"
+      "fecha": "2025-10-07",
+      "id": "e224"
     },
     {
       "cuarto": "2-B",
       "monto": 320,
-      "fecha": "2025-10-20"
+      "fecha": "2025-10-20",
+      "id": "6d6b"
     },
     {
       "cuarto": "1-D",
       "monto": 310,
-      "fecha": "2025-10-04"
+      "fecha": "2025-10-04",
+      "id": "3c8c"
     },
     {
       "cuarto": "5-F",
       "monto": 400,
-      "fecha": "2025-10-22"
+      "fecha": "2025-10-22",
+      "id": "a376"
     },
     {
       "cuarto": "3-C",
       "monto": 360,
-      "fecha": "2025-10-10"
+      "fecha": "2025-10-10",
+      "id": "ce4e"
     },
     {
       "cuarto": "4-J",
       "monto": 380,
-      "fecha": "2025-10-15"
+      "fecha": "2025-10-15",
+      "id": "789d"
     },
     {
       "cuarto": "2-F",
       "monto": 330,
-      "fecha": "2025-10-23"
+      "fecha": "2025-10-23",
+      "id": "efe2"
     },
     {
       "cuarto": "1-B",
       "monto": 310,
-      "fecha": "2025-10-09"
+      "fecha": "2025-10-09",
+      "id": "a320"
     },
     {
       "cuarto": "5-A",
       "monto": 395,
-      "fecha": "2025-10-24"
-    },
-    {
-      "cuarto": "4-B",
-      "monto": 370,
-      "fecha": "2025-10-12"
+      "fecha": "2025-10-24",
+      "id": "8b8d"
     },
     {
       "cuarto": "5-F",
       "monto": 400,
-      "fecha": "2025-10-19"
-    },
-    {
-      "id": "1c51",
-      "cuarto": "4-F",
-      "monto": "355",
-      "fecha": "2025-10-22"
+      "fecha": "2025-10-19",
+      "id": "d9bb"
     }
   ],
   "reports": []
