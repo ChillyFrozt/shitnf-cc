@@ -6,92 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Administrar Inquilinos - Casa Campus</title>
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    .template_wrapper {
-      max-width: 1000px;
-      width: 90%;
-      margin: 0 auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-    }
-
-    th,
-    td {
-      padding: 10px;
-      border-bottom: 1px solid #fcfaf74d;
-      color: #fcfaf7;
-    }
-
-    .grid {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .grid label {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .grid input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 2px solid #fcfaf7;
-      background: transparent;
-      color: #fcfaf7;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .btn {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #fcfaf7;
-      color: #010101;
-    }
-
-    .btn-danger {
-      background: #fe6138;
-      color: #fcfaf7;
-    }
-
-    .btn-secondary {
-      background: #3e3ef4;
-      color: #fcfaf7;
-      border: 1px solid #fcfaf7;
-    }
-
-    .alert {
-      display: none;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
-    .alert.ok {
-      background: #98be4f;
-      color: #010101;
-    }
-
-    .alert.err {
-      background: #fe6138;
-      color: #fcfaf7;
-    }
-  </style>
 </head>
 
 <body>
@@ -123,7 +37,7 @@
 
 
   <div class="template_container">
-    <div class="template_wrapper">
+    <div class="inquilinos_wrapper">
       <h1 style="text-align:center;margin:12px 0 20px;">Administrar Inquilinos</h1>
 
       <div id="ok" class="alert ok"></div>
@@ -186,9 +100,9 @@
 
     const ok = $('#ok');
     const err = $('#err');
-    const tbody = $('#tbody');      // <- asegúrate de tener <tbody id="tbody">
+    const tbody = $('#tbody');
 
-    let editingId = null;           // <- usamos esto para decidir si es EDITAR o CREAR
+    let editingId = null;
 
     function showOK(t) { ok.textContent = t; ok.style.display = 'block'; setTimeout(() => ok.style.display = 'none', 2000); }
     function showERR(t) { err.textContent = t; err.style.display = 'block'; setTimeout(() => err.style.display = 'none', 3500); }
@@ -202,7 +116,7 @@
     }
 
     function clearForm() {
-      editingId = null;             // <- salir de modo edición
+      editingId = null;
       setForm(null);
     }
 
@@ -218,7 +132,7 @@
     }
 
     async function cargar() {
-      const list = await api('/tenants');  // Obtiene la lista de inquilinos
+      const list = await api('/tenants');
       tbody.innerHTML = list.map(t => `
     <tr data-id="${t.id}">
       <td>${t.nombre}</td>
@@ -251,7 +165,6 @@
       e.preventDefault();
       if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
 
-      // Aquí definimos 'payload' solo una vez, antes de usarla.
       const payload = {
         nombre: $('#nombre').value.trim(),
         cuarto: $('#cuarto').value.trim().toUpperCase(),
@@ -259,20 +172,17 @@
         cedula: $('#cedula').value.trim()
       };
 
-      // Validación de datos
       const msg = validarDatos(payload);
       if (msg) { showERR(msg); return; }
 
       try {
         if (editingId !== null) {
-          // EDITAR: Usamos PATCH y no tocamos 'id', ya que está en la URL
           await api(`/tenants/${encodeURIComponent(editingId)}`, {
             method: 'PATCH',
-            body: JSON.stringify(payload)  // Enviamos solo 'payload' (sin 'id' en el cuerpo)
+            body: JSON.stringify(payload)
           });
           showOK('Inquilino actualizado');
         } else {
-          // CREAR: No mandamos el 'id', JSON Server lo genera automáticamente
           await api('/tenants', { method: 'POST', body: JSON.stringify(payload) });
           showOK('Inquilino creado');
         }
@@ -285,10 +195,8 @@
     });
 
 
-    // --- limpiar ---
     $('#limpiar').addEventListener('click', clearForm);
 
-    // --- delegación de clicks (editar / eliminar) ---
     document.addEventListener('click', async (e) => {
       const btn = e.target.closest('[data-action]');
       if (!btn) return;
@@ -327,7 +235,6 @@
       }
     });
 
-    // --- inicio ---
     cargar();
   </script>
 

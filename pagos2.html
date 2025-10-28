@@ -6,94 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestionar Pagos - Casa Campus</title>
     <link rel="stylesheet" href="styles.css" />
-    <style>
-        .template_wrapper {
-            max-width: 1000px;
-            width: 90%;
-            margin: 0 auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #fcfaf74d;
-            color: #fcfaf7;
-        }
-
-        .grid {
-            display: grid;
-            gap: 12px;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
-
-        .grid label {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .grid input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid #fcfaf7;
-            background: transparent;
-            color: #fcfaf7;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: #fcfaf7;
-            color: #010101;
-        }
-
-        .btn-secondary {
-            background: #3e3ef4;
-            color: #fcfaf7;
-            border: 1px solid #fcfaf7;
-        }
-
-        .alert {
-            display: none;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .alert.ok {
-            background: #98be4f;
-            color: #010101;
-        }
-
-        .alert.err {
-            background: #fe6138;
-            color: #fcfaf7;
-        }
-    </style>
 </head>
 
 <body>
 
     <button class="btnBuscar"><a href="pagos.html">Volver</a></button>
 
-    <!-- Navbar (igual que las demás páginas) -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar__container">
             <a href="/home.html"><img id="navbar__logo" src="images/logo.png" alt="Logo" /></a>
@@ -110,7 +29,7 @@
     </nav>
 
     <div class="template_container">
-        <div class="template_wrapper">
+        <div class="pagos_wrapper">
             <h1 style="text-align:center;margin:12px 0 20px;">Gestionar Pagos</h1>
 
             <div id="ok" class="alert ok"></div>
@@ -213,7 +132,7 @@
             }
         });
 
-        // Eliminar pago (soporta pagos sin id en db.json)
+        // Eliminar pago
         document.addEventListener('click', async (e) => {
             const btn = e.target.closest('[data-action]');
             if (!btn) return;
