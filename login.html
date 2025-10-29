@@ -1,72 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inicio de Sesión - Casa Campus</title>
-    <link rel="icon" href="images/icon.png" type="image/x-icon"/>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
-    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-  </head>
-  <body>
 
-    <!-- Navbar (No tocar) -->
-    <nav class="navbar">
-      <div class="navbar__container">
-        <a href="/home.html"><img id="navbar__logo" src="images/logo.png" alt="Logo" /></a>
-        <div class="navbar__toggle" id="mobile-menu">
-          <span class="bar"></span> <span class="bar"></span>
-          <span class="bar"></span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio de Sesión - Casa Campus</title>
+  <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+  <!-- Navbar (No tocar) -->
+  <nav class="navbar">
+    <div class="navbar__container">
+      <a href="/home.html"><img id="navbar__logo" src="images/logo.png" alt="Logo" /></a>
+      <div class="navbar__toggle" id="mobile-menu">
+        <span class="bar"></span> <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <ul class="navbar__menu">
+        <li class="navbar__item">
+          <a href="/inquilinos.html" class="navbar__links">Inquilinos</a>
+        </li>
+        <li class="navbar__item">
+          <a href="/pagos.html" class="navbar__links">Pagos</a>
+        </li>
+        <li class="navbar__item">
+          <a href="/reportes.html" class="navbar__links">Reportes</a>
+        </li>
+        <li class="navbar__btn"><a href="/login.html" class="navbar__button">Iniciar Sesión</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="login_container">
+    <div class="login_wrapper">
+      <form action="">
+        <h1>Iniciar Sesión</h1>
+        <div class="login_input-box">
+          <input type="text" placeholder="Nombre de Usuario" required />
+          <i class='bxr bx-user-circle'></i>
         </div>
-        <ul class="navbar__menu">
-          <li class="navbar__item">
-            <a href="/inquilinos.html" class="navbar__links">Inquilinos</a>
-          </li>
-          <li class="navbar__item">
-            <a href="/pagos.html" class="navbar__links">Pagos</a>
-          </li>
-          <li class="navbar__item">
-            <a href="/reportes.html" class="navbar__links">Reportes</a>
-          </li>
-          <li class="navbar__btn"><a href="/login.html" class="navbar__button">Iniciar Sesión</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Main -->
-    <div class="login_container">
-      <div class="login_wrapper">
-        <form action="">
-          <h1>Iniciar Sesión</h1>
-          <div class="login_input-box">
-            <input type="text" placeholder="Nombre de Usuario" required/>
-            <i class='bxr bx-user-circle'></i> 
-          </div>
-          <div class="login_input-box">
-            <input type="password" placeholder="Contraseña" required/>
-            <i class='bxr bx-lock-keyhole'></i> 
-          </div>
-          <div class="login_remember-forgot">
-            <label><input type="checkbox"> Recuérdame</label>
-            <a href="find.html">¿Olvidaste tu Contraseña?</a>
-          </div>
-          <button type="submit" class="btn">Iniciar Sesión</button>
-          <div class="login_register-link">
-            <p>¿No tienes cuenta? <a href="signup.html">Regístrate</a></p>
-          </div>
-        </form>
-      </div>
-    </div>  
+        <div class="login_input-box">
+          <input type="password" placeholder="Contraseña" required />
+          <i class='bxr bx-lock-keyhole'></i>
+        </div>
+        <div class="login_remember-forgot">
+          <label><input type="checkbox"> Recuérdame</label>
+          <a href="find.html">¿Olvidaste tu Contraseña?</a>
+        </div>
+        <button type="submit" class="btn">Iniciar Sesión</button>
+        <div class="login_register-link">
+          <p>¿No tienes cuenta? <a href="signup.html">Regístrate</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
 
 
-    <!-- Footer (No tocar) -->
-    <div class="footer_container">
-        <div class="social__media--wrap">
-            <img id="footer_logo" src="images/logo.png" />
-          </div>
-          <p class="website__rights">© Casa Campus TEC 2025. Derechos Reservados</p>
-    <script src="app.js"></script>
+  <!-- Footer (No tocar) -->
+  <div class="footer_container">
+    <div class="social__media--wrap">
+      <img id="footer_logo" src="images/logo.png" />
+    </div>
+    <p class="website__rights">© Casa Campus TEC 2025. Derechos Reservados</p>
+    <script>
+      const API = "http://localhost:3001";
 
-  </body>
+      document.querySelector("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.querySelector('input[type="text"]').value.trim();
+        const password = document.querySelector('input[type="password"]').value.trim();
+
+        try {
+          const res = await fetch(`${API}/users?email=${email}&password=${password}`);
+          const users = await res.json();
+
+          if (!users.length) {
+            alert("Credenciales incorrectas");
+            return;
+          }
+
+          const user = users[0];
+          localStorage.setItem("user", JSON.stringify(user));
+
+          alert(`Bienvenido ${user.role === "admin" ? "Administrador" : "Usuario"}`);
+          location.href = "inquilinos.html";
+        } catch {
+          alert("Error al iniciar sesión");
+        }
+      });
+    </script>
+
+
+</body>
+
 </html>
