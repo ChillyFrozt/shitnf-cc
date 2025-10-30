@@ -19,10 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- Redirección si no hay sesión (excepto login/signup)
-    const path = window.location.pathname;
-    const isAuthPage = path.endsWith("login.html") || path.endsWith("signup.html");
-    if (!user && !isAuthPage) {
+    // --- Redirección si no hay sesión (permitir home/login/signup) ---
+    const currentPage = window.location.pathname.split("/").pop();
+    const publicPages = new Set(["home.html", "login.html", "signup.html"]);
+    if (!user && !publicPages.has(currentPage)) {
         alert("Debe iniciar sesión para acceder.");
         location.href = "login.html";
         return;
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // 2.3 Captura clicks a nivel captura para frenar cualquier botón de eliminar que se escape
+        // 2.3 Captura clicks para frenar cualquier eliminar que se escape
         document.addEventListener("click", (e) => {
             const danger = e.target.closest('[data-action="del"], .btn-danger');
             if (danger) {
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }, true);
 
-        // 2.4 Capa dura: envuelve fetch para impedir POST/PUT/PATCH/DELETE
+        // 2.4 Capa dura: bloquea POST/PUT/PATCH/DELETE
         const originalFetch = window.fetch.bind(window);
         window.fetch = (input, init = {}) => {
             const method = (init && init.method ? init.method : "GET").toUpperCase();
@@ -63,5 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 });
+
 
 

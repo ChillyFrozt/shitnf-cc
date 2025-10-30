@@ -10,6 +10,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap" rel="stylesheet">
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 </head>
+<style>
+  /* 🔹 Texto y placeholder en blanco dentro de los inputs */
+  .signup_input-box input {
+    color: #ffffff;
+  }
+
+  .signup_input-box input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+  }
+</style>
+
 
 <body>
 
@@ -39,7 +50,7 @@
   <!-- Main -->
   <div class="signup_container">
     <div class="signup_wrapper">
-      <form action="">
+      <form id="signupForm" autocomplete="off">
         <h1>Crear una Cuenta</h1>
         <div class="signup_input-box">
           <input type="text" placeholder="Nombre de Usuario" required />
@@ -67,7 +78,7 @@
     <script>
       const API = "http://localhost:3001";
 
-      document.querySelector("form").addEventListener("submit", async (e) => {
+      document.getElementById("signupForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const email = document.querySelector('input[type="text"]').value.trim();
@@ -79,18 +90,15 @@
         }
 
         try {
-          // Verificar que no exista ya
+          // Verificar si ya existe
           const exists = await fetch(`${API}/users?email=${email}`).then(r => r.json());
           if (exists.length) {
             alert("Este correo ya está registrado");
             return;
           }
 
-          const newUser = {
-            email,
-            password,
-            role: "user" // Usuario normal ✔️
-          };
+          // Crear nuevo usuario
+          const newUser = { email, password, role: "user" };
 
           await fetch(`${API}/users`, {
             method: "POST",
@@ -99,13 +107,13 @@
           });
 
           alert("✅ Cuenta creada correctamente\nAhora puedes iniciar sesión");
-          location.href = "login.html";
-
+          window.location.href = "login.html"; // 🔹 Redirección automática
         } catch {
           alert("Error al registrarse");
         }
       });
     </script>
+
 
 
 </body>
