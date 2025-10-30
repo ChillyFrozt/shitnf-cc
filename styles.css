@@ -1329,7 +1329,7 @@ colgroup col:nth-child(6) {
   position: absolute;
   /* igual que btnBuscar pero del lado izquierdo */
   top: 90px;
-  left: 20px;
+  right: 20px;
   transition: all 0.35s;
   outline: none;
   overflow: hidden;
