@@ -87,12 +87,6 @@
   ],
   "payments": [
     {
-      "cuarto": "4-K",
-      "monto": 380,
-      "fecha": "2025-10-18",
-      "id": "58df"
-    },
-    {
       "cuarto": "3-A",
       "monto": 350,
       "fecha": "2025-10-07",
@@ -156,10 +150,16 @@
   "reports": [],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "carlosadmin@gmail.com",
       "password": "admin123",
       "role": "admin"
+    },
+    {
+      "id": "c998",
+      "email": "zumbadod@gmail.com",
+      "password": "moose6679",
+      "role": "user"
     }
   ]
 }
