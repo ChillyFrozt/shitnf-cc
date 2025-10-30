@@ -19,30 +19,51 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- Redirección si no hay sesión (permitir home/login/signup) ---
+    // --- Ocultar botón grande en HOME si hay sesión ---
     const currentPage = window.location.pathname.split("/").pop();
-    const publicPages = new Set(["home.html", "login.html", "signup.html"]);
-    if (!user && !publicPages.has(currentPage)) {
-        alert("Debe iniciar sesión para acceder.");
-        location.href = "login.html";
-        return;
+    if (currentPage === "home.html") {
+        const mainBtn = document.querySelector(".main_btn");
+        if (mainBtn) {
+            mainBtn.style.display = user ? "none" : "inline-block";
+        }
     }
 
-    // --- Si NO es admin → bloquear edición/eliminación en TODA la app ---
+    // --- Si no hay sesión: convertir botones en accesos al login ---
+    const publicPages = new Set(["home.html", "login.html", "signup.html"]);
+    if (!user && !publicPages.has(currentPage)) {
+        console.log("Sin sesión: ajustando botones para redirigir a login");
+
+        document.querySelectorAll("button, a, .btn").forEach(el => {
+            // Evita alterar navbar o footer
+            if (!el.closest("nav") && !el.closest(".footer_container")) {
+                if (el.tagName === "A") {
+                    el.setAttribute("href", "login.html");
+                } else {
+                    el.addEventListener("click", e => {
+                        e.preventDefault();
+                        alert("Debe iniciar sesión para usar esta función.");
+                        location.href = "login.html";
+                    });
+                }
+            }
+        });
+    }
+
+    // --- Si NO es admin → bloquear edición/eliminación ---
     if (user && user.role !== "admin") {
-        // 2.1 Oculta botones típicos de mutación si existieran en la página
+        // Oculta botones de mutación
         document.querySelectorAll(".btn-danger, .btn-primary[data-action='edit'], [data-action='del']").forEach(btn => {
             btn.style.display = "none";
         });
 
-        // 2.2 Deshabilita formularios de creación/edición (deja buscadores)
+        // Deshabilita formularios de creación/edición (deja buscadores)
         document.querySelectorAll("form").forEach(f => {
             if (!/formBuscador/i.test(f.id)) {
                 f.style.display = "none";
             }
         });
 
-        // 2.3 Captura clicks para frenar cualquier eliminar que se escape
+        // Bloquea clicks de eliminar
         document.addEventListener("click", (e) => {
             const danger = e.target.closest('[data-action="del"], .btn-danger');
             if (danger) {
@@ -52,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }, true);
 
-        // 2.4 Capa dura: bloquea POST/PUT/PATCH/DELETE
+        // Bloquea mutaciones por fetch
         const originalFetch = window.fetch.bind(window);
         window.fetch = (input, init = {}) => {
             const method = (init && init.method ? init.method : "GET").toUpperCase();
@@ -63,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 });
+
 
 
 

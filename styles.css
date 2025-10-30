@@ -1315,6 +1315,28 @@ colgroup col:nth-child(6) {
   width: 100%;
 }
 
+/* --- Ocultar elementos al imprimir --- */
+@media print {
+
+  /* Botones de la página de reportes */
+  .btnBuscar,
+  .btnBuscar *,
+  .btnImprimir,
+  .btnImprimir * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Opcional: oculta navegación y footer en el PDF */
+  .navbar,
+  .navbar *,
+  .footer_container,
+  .footer_container * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
 /* === BOTÓN IMPRIMIR === */
 /* === BOTÓN IMPRIMIR === */
 .btnImprimir {
