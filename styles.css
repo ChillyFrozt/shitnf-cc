@@ -1277,7 +1277,7 @@ colgroup col:nth-child(6) {
   color: #fcfaf7;
   margin-top: 2rem;
   cursor: pointer;
-  position: fixed;
+  position: absolute;
   top: 110px;
   /* Lo posicionamos en la parte superior */
   left: 20px;
