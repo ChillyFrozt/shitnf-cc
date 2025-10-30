@@ -666,18 +666,6 @@
       "email": "zumbadod@gmail.com",
       "password": "moose6679",
       "role": "user"
-    },
-    {
-      "id": "55c0",
-      "email": "gabo@hotmail.com",
-      "password": "12345",
-      "role": "user"
-    },
-    {
-      "id": "3aa3",
-      "email": "dani@gmail.com",
-      "password": "123456",
-      "role": "user"
     }
   ]
 }
